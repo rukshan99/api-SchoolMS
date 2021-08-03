@@ -1,0 +1,19 @@
+{
+  "name": "apisms",
+  "version": "1.0.0",
+  "description": "api of the school management system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rukshan99/api-SchoolMS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rukshan99/api-SchoolMS/issues"
+  },
+  "homepage": "https://github.com/rukshan99/api-SchoolMS#readme"
+}
