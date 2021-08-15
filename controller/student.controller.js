@@ -29,3 +29,13 @@ exports.addStudent = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getAllStudents = async (req, res, next) => {
+	try {
+		const students = await Student.getStudentsAggregated();
+		res.status(200).json({ students: students });
+	} catch (error) {
+		error.statusCode = 500;
+		next(error);
+	}
+};
