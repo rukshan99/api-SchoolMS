@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
+const initDb = require('./helpers/db').initDb;
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -17,6 +18,14 @@ app.use((error, req, res, next) => {
 	res.status(errorStatusCode).json({ error: errorMessage });
 });
 
-app.listen(port,() => {
-    console.log(`server is listening on port ${port}`);
+initDb((error, client) => {
+	if (error) {
+		console.error('MongoDB Atlas connection failed');
+        console.error(error);
+	} else {
+		console.log('MongoDB Atlas connection successful');
+		app.listen(port,() => {
+            console.log(`server is listening on port ${port}`);
+        });
+	}
 });
