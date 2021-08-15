@@ -56,3 +56,15 @@ exports.getStudent = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getSearchForStudents = async (req, res, next) => {
+	const searchText = req.params.text;
+
+	try {
+		const foundStudents = await Student.searchForStudents(searchText);
+		res.status(200).json({ students: foundStudents });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
