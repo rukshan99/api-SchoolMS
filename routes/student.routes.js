@@ -21,4 +21,6 @@ router.post(
 	StudentControllers.addStudent
 );
 
+router.get('/students', StudentControllers.getAllStudents);
+
 module.exports = router;

@@ -19,6 +19,21 @@ class Student {
 		return db().collection(collectionName).insertOne(this);
 	};
 
+	static getStudents = () => {
+		return db().collection(collectionName).find().toArray();
+	};
+
+	static getStudentsAggregated = () => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ $match: {} },
+				{ $lookup: { from: 'classes', localField: 'classId', foreignField: '_id', as: 'class' } },
+				{ $project: { classId: 0, 'class.students': 0, 'class.schedule': 0 } }
+			])
+			.toArray();
+	};
+
 }
 
 module.exports = Student;
