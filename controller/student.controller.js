@@ -39,3 +39,20 @@ exports.getAllStudents = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getStudent = async (req, res, next) => {
+	const studentId = req.params.studentId;
+	try {
+		const student = await Student.getStudentAggregated(studentId);
+		if (!student) {
+			const error = new Error('Student with that id does not exist..');
+			error.statusCode = 404;
+			throw error;
+		}
+
+		res.status(200).json({ student: student });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
