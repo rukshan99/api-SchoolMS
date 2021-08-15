@@ -41,7 +41,7 @@ exports.getAllStudents = async (req, res, next) => {
 };
 
 exports.getStudent = async (req, res, next) => {
-	const studentId = req.params.studentId;
+	const studentId = req.params.id;
 	try {
 		const student = await Student.getStudentAggregated(studentId);
 		if (!student) {
