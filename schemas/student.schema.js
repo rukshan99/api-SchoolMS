@@ -19,6 +19,10 @@ class Student {
 		return db().collection(collectionName).insertOne(this);
 	};
 
+	static getStudents = () => {
+		return db().collection(collectionName).find().toArray();
+	};
+
 }
 
 module.exports = Student;
