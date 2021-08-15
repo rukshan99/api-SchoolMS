@@ -4,12 +4,16 @@ const helmet = require('helmet');
 const cors = require('cors');
 const initDb = require('./helpers/db').initDb;
 
+const StudentRoutes = require('./routes/student.routes');
+
 const app = express();
 const port = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
+
+app.use('/api/v1', StudentRoutes);
 
 app.use((error, req, res, next) => {
 	const errorMessage = error.message ? error.message : 'something went wrong';
