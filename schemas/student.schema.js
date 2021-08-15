@@ -23,6 +23,40 @@ class Student {
 		return db().collection(collectionName).find().toArray();
 	};
 
+	static getStudentsWithCondition = condition => {
+		return db().collection(collectionName).find(condition).toArray();
+	};
+
+	static getStudentWithCondition = condition => {
+		return db().collection(collectionName).findOne(condition);
+	};
+
+	static getStudent = studentId => {
+		return db().collection(collectionName).findOne({ _id: new ObjectId(studentId) });
+	};
+
+	static searchForStudents = searchText => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ $match: { $text: { $search: searchText } } },
+				{ $sort: { score: { $meta: 'textScore' } } },
+				{ $lookup: { from: 'classes', localField: 'classId', foreignField: '_id', as: 'class' } },
+				{ $project: { 'class.students': 0 } }
+			])
+			.toArray();
+	};
+
+	// search for students as the above query but in a certain class
+	static searchForStudentsInClass = (searchText, classId) => {
+		return db()
+			.collection(collectionName)
+			.find({ $and: [ { $text: { $search: searchText } }, { classId: new ObjectId(classId) } ] })
+			.project({ score: { $meta: 'textScore' } })
+			.sort({ score: { $meta: 'textScore' } })
+			.toArray();
+	};
+
 	static getStudentsAggregated = () => {
 		return db()
 			.collection(collectionName)
@@ -34,6 +68,16 @@ class Student {
 			.toArray();
 	};
 
+	static getStudentAggregated = studentId => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ $match: { _id: new ObjectId(studentId) } },
+				{ $lookup: { from: 'classes', localField: 'classId', foreignField: '_id', as: 'class' } },
+				{ $project: { 'realClass.students': 0, 'realClass._id': 0, 'realClass.schedule': 0 } }
+			])
+			.next();
+	};
 }
 
 module.exports = Student;
