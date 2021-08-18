@@ -21,9 +21,9 @@ exports.addStudent = async (req, res, next) => {
 		const student = new Student(firstName, lastName, +age, gender, email, null, date);
 
 		const addingResult = await student.addStudent();
-		const [ insertedStudent ] = addingResult.ops;
+		const insertedStudent = addingResult.insertedId;
 
-		res.status(201).json({ message: 'Student added successfully', studentId: insertedStudent._id.toString() });
+		res.status(201).json({ message: 'Student added successfully', studentId: insertedStudent.toString() });
 	} catch (error) {
 		if (!error.statusCode) error.statusCode = 500;
 		next(error);
