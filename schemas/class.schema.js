@@ -17,6 +17,10 @@ class Class {
 		return db().collection(collectionName).insertOne(this);
 	};
 
+    static getClass = classId => {
+		return db().collection(collectionName).findOne({ _id: new ObjectId(classId) });
+	};
+    
 	static getClasses = () => {
 		return db().collection(collectionName).find().project({ name: 1 }).toArray();
 	};
@@ -34,6 +38,10 @@ class Class {
 				{ $project: { students: 0 } }
 			])
 			.next();
+	};
+
+    static editClassWithCondition = (filterObj, updatingObj) => {
+		return db().collection(collectionName).updateOne(filterObj, updatingObj);
 	};
 
 }

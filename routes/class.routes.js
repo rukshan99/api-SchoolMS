@@ -44,6 +44,9 @@ router.post(
 	ClassControllers.postAddClass
 );
 
+// PATCH @ /settings/class/addStudent
+router.patch('/class/addStudent', ClassControllers.patchAddStudentToClass);
+
 
 
 module.exports = router;

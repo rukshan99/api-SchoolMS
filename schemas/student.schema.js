@@ -78,6 +78,14 @@ class Student {
 			])
 			.next();
 	};
+
+	static updateStudentWithConfigs = (studentId, configuration) => {
+		return db().collection(collectionName).updateOne({ _id: new ObjectId(studentId) }, configuration);
+	};
+
 }
+
+
+
 
 module.exports = Student;
