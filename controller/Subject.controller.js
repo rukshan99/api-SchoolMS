@@ -43,3 +43,22 @@ exports.getGetSubjects = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getSingleSubject = async (req, res, next) => {
+	const { subjectId } = req.params;
+
+	try {
+		const subject = await Subject.getSingleSubjectAggregated(subjectId);
+
+		if (!subject) {
+			const error = new Error('Subject with given id does not exist');
+			error.statusCode = 404;
+			throw error;
+		}
+
+		res.status(200).json({ message: 'Subject found scuccessfully', subject: subject });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};

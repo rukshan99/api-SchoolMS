@@ -19,7 +19,7 @@ router.post(
 );
 
 // GET @ /settings/subject/:subjectId
-// router.get('/subject/:subjectId', SubjectControllers.getSingleSubject);
+router.get('/subject/:subjectId', SubjectControllers.getSingleSubject);
 
 // // PATCH /settings/subjects/edit
 // router.patch(
