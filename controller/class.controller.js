@@ -38,3 +38,22 @@ exports.postAddClass = async (req, res, next) => {
 	}
 };
 
+exports.getGetSingleClass = async (req, res, next) => {
+	const classId = req.params.classId;
+
+	try {
+		const foundClass = await Class.getClassAggregated(classId);
+
+		if (!foundClass) {
+			const error = new Error('Class with given id does not exist.');
+			error.statusCode = 404;
+			throw error;
+		}
+
+		res.status(200).json({ class: foundClass });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
+

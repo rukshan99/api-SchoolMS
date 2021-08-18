@@ -8,6 +8,9 @@ const Class = require('../schemas/class.schema');
 
 const router = express.Router();
 
+// GET @ /settings/class/:classId
+router.get('/class/:classId', ClassControllers.getGetSingleClass);
+
 // GET @ /settings/classes
 router.get('/classes', ClassControllers.getGetClasses);
 

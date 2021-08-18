@@ -25,6 +25,17 @@ class Class {
 		return db().collection(collectionName).findOne(condition);
 	};
 
+    static getClassAggregated = classId => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ $match: { _id: new ObjectId(classId) } },
+				{ $lookup: { from: 'students', localField: 'students', foreignField: '_id', as: 'realStudents' } },
+				{ $project: { students: 0 } }
+			])
+			.next();
+	};
+
 }
 
 
