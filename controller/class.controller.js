@@ -57,3 +57,55 @@ exports.getGetSingleClass = async (req, res, next) => {
 	}
 };
 
+exports.patchAddStudentToClass = async (req, res, next) => {
+	const { classId, studentId } = req.body;
+
+	try {
+		// check first if the class and student exist because i need to build a robust app that prevents any bugs
+
+		const foundClass = await Class.getClass(classId);
+
+		if (!foundClass) {
+			const error = new Error('No class with given id exists');
+			error.statusCode = 404;
+			throw error;
+		}
+
+		const student = await Student.getStudent(studentId);
+
+		if (!student) {
+			const error = new Error('No Student with given id exists');
+			error.statusCode = 404;
+			throw error;
+		}
+		// if you are trying to add a student who is already in a class
+		if (student) {
+			if (student.classId !== null) {
+				const error = new Error('You are trying to add a student who is really exist');
+				error.statusCode = 403;
+				throw error;
+			}
+		}
+
+		// add the student to the class students array
+		const updatingClassResult = await Class.editClassWithCondition(
+			{ _id: new ObjectId(classId) },
+			{ $addToSet: { students: new ObjectId(studentId) } }
+		);
+
+		// add the classId to the student
+		const updatingStudentResult = await Student.updateStudentWithConfigs(studentId, {
+			$set: { classId: new ObjectId(classId) }
+		});
+
+		res.status(200).json({
+			message: 'Student added successfully',
+			classId: classId,
+			studentId: studentId
+		});
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
+
