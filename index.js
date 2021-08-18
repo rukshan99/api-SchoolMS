@@ -6,6 +6,9 @@ const initDb = require('./helpers/db').initDb;
 
 const StudentRoutes = require('./routes/student.routes');
 
+
+const SubjectRoutes = require('./routes/Subject.routes')
+
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -14,6 +17,9 @@ app.use(helmet());
 app.use(bodyParser.json());
 
 app.use('/api/v1', StudentRoutes);
+
+
+app.use('/api/v1', SubjectRoutes);
 
 app.use((error, req, res, next) => {
 	const errorMessage = error.message ? error.message : 'something went wrong';
