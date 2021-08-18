@@ -17,22 +17,22 @@ class Subject {
 		return db().collection(collectionName).insertOne(this);
 	};
 
-    // static getSingleSubjectAggregated = subjectId => {
-	// 	console.log('we made it here');
+    static getSingleSubjectAggregated = subjectId => {
+		console.log('we made it here');
 
-	// 	return db()
-	// 		.collection(collectionName)
-	// 		.aggregate([
-	// 			{
-	// 				$match: { _id: new ObjectId(subjectId) }
-	// 			},
-	// 			{ $lookup: { from: 'teachers', localField: 'teachers', foreignField: '_id', as: 'realTeachers' } }
-	// 		])
-	// 		.next();
-	// };
-	// static getSubject = subjectId => {
-	// 	return db().collection(collectionName).findOne({ _id: new ObjectId(subjectId) });
-	// };
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{
+					$match: { _id: new ObjectId(subjectId) }
+				},
+				{ $lookup: { from: 'teachers', localField: 'teachers', foreignField: '_id', as: 'realTeachers' } }
+			])
+			.next();
+	};
+	static getSubject = subjectId => {
+		return db().collection(collectionName).findOne({ _id: new ObjectId(subjectId) });
+	};
 
     static getSubjectWithCondition = condition => {
 		return db().collection(collectionName).findOne(condition);
@@ -41,21 +41,21 @@ class Subject {
 		return db().collection(collectionName).find().toArray();
 	};
 
-	// static getSubjectsAggregated = () => {
-	// 	return db()
-	// 		.collection(collectionName)
-	// 		.aggregate([
-	// 			{ $lookup: { from: 'teachers', localField: 'teachers', foreignField: '_id', as: 'realTeachers' } }
-	// 		])
-	// 		.next();
-	// };
-	// static removeSubject = subjectId => {
-	// 	return db().collection(collectionName).deleteOne({ _id: new ObjectId(subjectId) });
-	// };
+	static getSubjectsAggregated = () => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ $lookup: { from: 'teachers', localField: 'teachers', foreignField: '_id', as: 'realTeachers' } }
+			])
+			.next();
+	};
+	static removeSubject = subjectId => {
+		return db().collection(collectionName).deleteOne({ _id: new ObjectId(subjectId) });
+	};
 
-	// static updateSubjectWithConfigs = (filterObj, updateObj) => {
-	// 	return db().collection(collectionName).updateOne(filterObj, updateObj);
-	// };
+	static updateSubjectWithConfigs = (filterObj, updateObj) => {
+		return db().collection(collectionName).updateOne(filterObj, updateObj);
+	};
 
 	// static GetSearchForSubjects = searchText => {
 	// 	return db()
