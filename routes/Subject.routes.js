@@ -18,7 +18,7 @@ router.post(
 	SubjectControllers.postAddSubject
 );
 
-// // GET @ /settings/subject/:subjectId
+// GET @ /settings/subject/:subjectId
 // router.get('/subject/:subjectId', SubjectControllers.getSingleSubject);
 
 // // PATCH /settings/subjects/edit
@@ -38,8 +38,8 @@ router.post(
 // 	SubjectControllers.patchEditSubjectName
 // );
 
-// // GET @ /settings/subjects
-// router.get('/subjects', SubjectControllers.getGetSubjects);
+// GET @ /settings/subjects
+router.get('/subjects', SubjectControllers.getGetSubjects);
 
 // // DELETE @ /settings/subjects/delete/:subjectId
 // router.delete('/subjects/delete/:subjectId', SubjectControllers.deleteRemoveSubject);

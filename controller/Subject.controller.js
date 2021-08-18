@@ -33,3 +33,13 @@ exports.postAddSubject = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getGetSubjects = async (req, res, next) => {
+	try {
+		const subjects = await Subject.getSubjects();
+		res.status(200).json({ subjects: subjects });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};

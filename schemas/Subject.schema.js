@@ -37,9 +37,9 @@ class Subject {
     static getSubjectWithCondition = condition => {
 		return db().collection(collectionName).findOne(condition);
 	};
-	// static getSubjects = () => {
-	// 	return db().collection(collectionName).find().toArray();
-	// };
+	static getSubjects = () => {
+		return db().collection(collectionName).find().toArray();
+	};
 
 	// static getSubjectsAggregated = () => {
 	// 	return db()
