@@ -7,8 +7,6 @@ const initDb = require('./helpers/db').initDb;
 const StudentRoutes = require('./routes/student.routes');
 const TeacherRoutes = require('./routes/teacher.routes');
 const ClassRoutes = require('./routes/class.routes');
-
-
 const SubjectRoutes = require('./routes/Subject.routes')
 
 const app = express();
@@ -21,8 +19,6 @@ app.use(bodyParser.json());
 app.use('/api/v1', StudentRoutes);
 app.use('/api/v1', TeacherRoutes);
 app.use('/api/v1', ClassRoutes);
-
-
 app.use('/api/v1', SubjectRoutes);
 
 app.use((error, req, res, next) => {
