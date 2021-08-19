@@ -28,6 +28,10 @@ class Teacher {
     static getTeachersWithCondition = condition => {
 		return db().collection(collectionName).find(condition).toArray();
 	};
+
+	static getTeachers = () => {
+		return db().collection(collectionName).find().toArray();
+	};
 }
 
 module.exports = Teacher;
