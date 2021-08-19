@@ -40,6 +40,7 @@ router.post(
 	TeacherControllers.postAddTeacher
 );
 
+
 router.get('/teachers', TeacherControllers.getGetTeachers);
 
 module.exports = router;
