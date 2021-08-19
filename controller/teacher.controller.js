@@ -49,3 +49,13 @@ exports.postAddTeacher = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getGetTeachers = async (req, res, next) => {
+	try {
+		const teachers = await Teacher.getTeachers();
+		res.status(200).json({ teachers: teachers });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
