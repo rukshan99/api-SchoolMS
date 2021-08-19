@@ -34,8 +34,8 @@ router.post(
 			})
 			.not()
 			.isNumeric(),
-            body('code', 'FirstName must contain chars only').trim().isString(),
-            body('description', 'FirstName must contain chars only').trim().isString()
+            body('code', 'Code must contain chars only').trim().isString(),
+            body('description', 'Description must contain chars only').trim().isString()
           
 	],
 	ClassControllers.postAddClass
