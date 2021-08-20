@@ -109,3 +109,15 @@ exports.patchAddStudentToClass = async (req, res, next) => {
 	}
 };
 
+exports.getSearchForClasses = async (req, res, next) => {
+	const searchText = req.params.text;
+
+	try {
+		const foundClasses = await Class.searchForClass(searchText);
+		console.log(foundClasses)
+		res.status(200).json({ classes: foundClasses });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};

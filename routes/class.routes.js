@@ -47,6 +47,8 @@ router.post(
 // PATCH @ /settings/class/addStudent
 router.patch('/class/addStudent', ClassControllers.patchAddStudentToClass);
 
+// GET @ /settings/classes/search/:text
+router.get('/classes/search/:text', ClassControllers.getSearchForClasses);
 
 
 module.exports = router;
