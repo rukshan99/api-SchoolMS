@@ -43,4 +43,6 @@ router.post(
 
 router.get('/teachers', TeacherControllers.getGetTeachers);
 
+router.get('/teachers/search/:text', TeacherControllers.getSearchForTeachers);
+
 module.exports = router;

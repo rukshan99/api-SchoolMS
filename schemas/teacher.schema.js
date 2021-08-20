@@ -32,6 +32,15 @@ class Teacher {
 	static getTeachers = () => {
 		return db().collection(collectionName).find().toArray();
 	};
+
+	static searchForTeacher = searchText => {
+
+		return db()
+			.collection(collectionName)
+			.find({firstName:{ $regex: new RegExp(searchText), $options: "i" }})
+			.toArray();
+			
+	};
 }
 
 module.exports = Teacher;
