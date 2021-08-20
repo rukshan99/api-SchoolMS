@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const { ObjectId } = require('mongodb');
 
 const Student = require('../schemas/student.schema');
+const Class = require('../schemas/class.schema');
 
 exports.addStudent = async (req, res, next) => {
 	const { firstName, lastName, age, gender, email } = req.body;
@@ -62,7 +63,20 @@ exports.getSearchForStudents = async (req, res, next) => {
 
 	try {
 		const foundStudents = await Student.searchForStudents(searchText);
-		res.status(200).json({ students: foundStudents });
+		const updateFoundStudents = [];
+		const blocker = foundStudents.map(async (student) => {
+			let clz = [];
+			if(student.classId) {
+				clz[0] = await Class.getClass(student.classId);
+				delete clz[0].students;
+			}
+			delete student.classId;
+			student = {...student, class: clz};
+			updateFoundStudents.push(student);
+		})
+		Promise.all(blocker).then(() => {
+			res.status(200).json({ students: updateFoundStudents });
+		  });
 	} catch (error) {
 		if (!error.statusCode) error.statusCode = 500;
 		next(error);
