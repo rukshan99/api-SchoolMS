@@ -34,12 +34,25 @@ class Teacher {
 	};
 
 	static searchForTeacher = searchText => {
+		
+		const regex = new RegExp(searchText);
 
 		return db()
 			.collection(collectionName)
-			.find({firstName:{ $regex: new RegExp(searchText), $options: "i" }})
+			.find({
+				$or: [
+					{
+						firstName: { $regex: regex, $options: "i" }
+					},
+					{
+						lastName: { $regex: regex, $options: "i" }
+					},
+					{
+						email: { $regex: regex, $options: "i" }
+					}
+				]
+			})
 			.toArray();
-			
 	};
 }
 
