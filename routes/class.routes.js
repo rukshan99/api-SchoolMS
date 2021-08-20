@@ -37,8 +37,8 @@ router.post(
 			})
 			.not()
 			.isNumeric(),
-            body('code', 'FirstName must contain chars only').trim().isString(),
-            body('description', 'FirstName must contain chars only').trim().isString()
+            body('code', 'Code must contain chars only').trim().isString(),
+            body('description', 'Description must contain chars only').trim().isString()
           
 	],
 	ClassControllers.postAddClass
@@ -47,6 +47,8 @@ router.post(
 // PATCH @ /settings/class/addStudent
 router.patch('/class/addStudent', ClassControllers.patchAddStudentToClass);
 
+// GET @ /settings/classes/search/:text
+router.get('/classes/search/:text', ClassControllers.getSearchForClasses);
 
 
 module.exports = router;
