@@ -65,10 +65,10 @@ exports.getSearchForStudents = async (req, res, next) => {
 		const foundStudents = await Student.searchForStudents(searchText);
 		const updateFoundStudents = [];
 		const blocker = foundStudents.map(async (student) => {
-			let clz = null;
+			let clz = [];
 			if(student.classId) {
-				clz = await Class.getClass(student.classId);
-				delete clz.students;
+				clz[0] = await Class.getClass(student.classId);
+				delete clz[0].students;
 			}
 			delete student.classId;
 			student = {...student, class: clz};
