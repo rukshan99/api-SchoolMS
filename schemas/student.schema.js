@@ -36,14 +36,23 @@ class Student {
 	};
 
 	static searchForStudents = searchText => {
+		const regex = new RegExp(searchText);
+
 		return db()
 			.collection(collectionName)
-			.aggregate([
-				{ $match: { $text: { $search: searchText } } },
-				{ $sort: { score: { $meta: 'textScore' } } },
-				{ $lookup: { from: 'classes', localField: 'classId', foreignField: '_id', as: 'class' } },
-				{ $project: { 'class.students': 0 } }
-			])
+			.find({
+				$or: [
+					{
+						firstName: { $regex: regex, $options: "i" }
+					},
+					{
+						lastName: { $regex: regex, $options: "i" }
+					},
+					{
+						email: { $regex: regex, $options: "i" }
+					}
+				]
+			})
 			.toArray();
 	};
 
