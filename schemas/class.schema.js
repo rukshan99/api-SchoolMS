@@ -44,6 +44,15 @@ class Class {
 		return db().collection(collectionName).updateOne(filterObj, updatingObj);
 	};
 
+	static searchForClass = searchText => {
+		// to search efficintly, we have to add a searching index db.collection.createIndex({property: 'text'})... then we search using this text index and then for better output we need to add a score meta property and sort by it like that
+		return db()
+			.collection(collectionName)
+			// .find({ name:{$regex: `^${searchText.toUpperCase()}`} })
+			.find({ name:{ $regex: new RegExp(searchText), $options: "i" } })
+			.toArray();
+	};
+
 }
 
 
