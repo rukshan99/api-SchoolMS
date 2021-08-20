@@ -62,3 +62,14 @@ exports.getSingleSubject = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getSearchForSubjects = async (req, res, next) => {
+	const searchText = req.params.text;
+	try {
+		const subjects = await Subject.GetSearchForSubjects(searchText);
+		res.status(200).json({ subjects: subjects });
+	} catch (error) {
+		error.statusCode = 500;
+		next(error);
+	}
+};

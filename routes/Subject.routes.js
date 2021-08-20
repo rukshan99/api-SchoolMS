@@ -9,7 +9,6 @@ const Subject = require('../schemas/Subject.schema');
 const router = express.Router();
 
 
-// POST @ /settings/subjects
 router.post(
 	'/subjects',
 	[ body('name', 'Subject must not be empty and only in characters').trim().notEmpty().isAlpha(),
@@ -17,9 +16,9 @@ router.post(
       body('description', 'Subject must not be empty').trim().notEmpty() ],
 	SubjectControllers.postAddSubject
 );
-
-// GET @ /settings/subject/:subjectId
 router.get('/subject/:subjectId', SubjectControllers.getSingleSubject);
+router.get('/subjects/search/:text', SubjectControllers.getSearchForSubjects);
+router.get('/subjects', SubjectControllers.getGetSubjects);
 
 // // PATCH /settings/subjects/edit
 // router.patch(
@@ -38,13 +37,8 @@ router.get('/subject/:subjectId', SubjectControllers.getSingleSubject);
 // 	SubjectControllers.patchEditSubjectName
 // );
 
-// GET @ /settings/subjects
-router.get('/subjects', SubjectControllers.getGetSubjects);
-
 // // DELETE @ /settings/subjects/delete/:subjectId
 // router.delete('/subjects/delete/:subjectId', SubjectControllers.deleteRemoveSubject);
 
-// // GET @ /settings/subjects/search/:text
-// router.get('/subjects/search/:text', SubjectControllers.getSearchForSubjects);
 
 module.exports = router;

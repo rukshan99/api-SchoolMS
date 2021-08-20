@@ -57,14 +57,12 @@ class Subject {
 		return db().collection(collectionName).updateOne(filterObj, updateObj);
 	};
 
-	// static GetSearchForSubjects = searchText => {
-	// 	return db()
-	// 		.collection(collectionName)
-	// 		.find({ $text: { $search: searchText } })
-	// 		.project({ score: { $meta: 'textScore' }, teachers: 0 })
-	// 		.sort({ score: { $meta: 'textScore' } })
-	// 		.toArray();
-	// };
+	static GetSearchForSubjects = searchText => {
+		return db()
+			.collection(collectionName)
+			.find({ name:{ $regex: new RegExp(searchText), $options: "i" } })
+			.toArray();
+	};
 
 }
 
