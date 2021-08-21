@@ -54,6 +54,17 @@ class Teacher {
 			})
 			.toArray();
 	};
+
+	static getTeacherAggregated = teacherId => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ $match: { _id: new ObjectId(teacherId) } },
+				{ $lookup: { from: 'subjects', localField: 'subjectId', foreignField: '_id', as: 'subject' } }
+			])
+			.next();
+	};
+	
 }
 
 module.exports = Teacher;
