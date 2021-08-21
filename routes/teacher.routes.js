@@ -45,4 +45,6 @@ router.get('/teachers', TeacherControllers.getGetTeachers);
 
 router.get('/teachers/search/:text', TeacherControllers.getSearchForTeachers);
 
+router.get('/teachers/:teacherId', TeacherControllers.getSingleTeacher);
+
 module.exports = router;
