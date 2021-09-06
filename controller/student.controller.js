@@ -82,3 +82,13 @@ exports.getSearchForStudents = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getStudentsByAge = async (req, res, next) => {
+	try {
+		const studentsByAge = await Student.getStudentsByAge();
+		res.status(200).json({ studentsByAge });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+}
