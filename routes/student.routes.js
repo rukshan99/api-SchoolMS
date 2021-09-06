@@ -41,4 +41,6 @@ router.get('/student/:id', StudentControllers.getStudent);
 
 router.get('/students/search/:text', StudentControllers.getSearchForStudents);
 
+router.get('/students-by-age', StudentControllers.getStudentsByAge);
+
 module.exports = router;

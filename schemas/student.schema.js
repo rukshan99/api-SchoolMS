@@ -92,9 +92,14 @@ class Student {
 		return db().collection(collectionName).updateOne({ _id: new ObjectId(studentId) }, configuration);
 	};
 
+	static getStudentsByAge = () => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ "$group": { _id: "$age", count: { $sum:1 } } }
+			])
+			.toArray();
+	};
 }
-
-
-
 
 module.exports = Student;
