@@ -43,4 +43,6 @@ router.get('/students/search/:text', StudentControllers.getSearchForStudents);
 
 router.get('/students-by-age', StudentControllers.getStudentsByAge);
 
+router.delete('/student/delete/:id', StudentControllers.deleteDeleteStudent);
+
 module.exports = router;
