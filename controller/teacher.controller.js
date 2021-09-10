@@ -71,3 +71,22 @@ exports.getSearchForTeachers = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getSingleTeacher = async (req, res, next) => {
+	const { teacherId } = req.params;
+
+	try {
+		const foundTeacher = await Teacher.getTeacherAggregated(teacherId);
+
+		if (!foundTeacher) {
+			const error = new Error('Teacher with given id is not found');
+			error.statusCode = 404;
+			throw error;
+		}
+
+		res.status(200).json({ message: 'Teacher found successfully', teacher: foundTeacher });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
