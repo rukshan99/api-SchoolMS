@@ -100,6 +100,10 @@ class Student {
 			])
 			.toArray();
 	};
+
+	static updateStudentsWithConfigs = (filteringObj, updatingObj) => {
+		return db().collection(collectionName).updateMany(filteringObj, updatingObj);
+	};
 }
 
 module.exports = Student;

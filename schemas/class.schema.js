@@ -53,6 +53,11 @@ class Class {
 			.toArray();
 	};
 
+	static removeClass = classId => {
+		return db().collection(collectionName).deleteOne({ _id: new ObjectId(classId) });
+	};
+
+
 }
 
 
