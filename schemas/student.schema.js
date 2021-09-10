@@ -100,6 +100,10 @@ class Student {
 			])
 			.toArray();
 	};
+
+	static deleteStudent = studentId => {
+		return db().collection(collectionName).deleteOne({ _id: new ObjectId(studentId) });
+	};
 }
 
 module.exports = Student;
