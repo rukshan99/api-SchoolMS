@@ -51,4 +51,11 @@ router.patch('/class/addStudent', ClassControllers.patchAddStudentToClass);
 router.get('/classes/search/:text', ClassControllers.getSearchForClasses);
 
 
+// DELETE @ /settings/class/delete/:classId
+router.delete('/class/delete/:classId', ClassControllers.deleteRemoveClass);
+
+// PATCH @ /settings/class/removeStudent
+router.patch('/class/removeStudent', ClassControllers.patchremoveStudentFromClass); 
+
+
 module.exports = router;
