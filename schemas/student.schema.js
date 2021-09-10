@@ -88,6 +88,10 @@ class Student {
 			.next();
 	};
 
+	static updateStudent = (studentId, updatedStudent) => {
+		return db().collection(collectionName).updateOne({ _id: new ObjectId(studentId) }, { $set: updatedStudent });
+	};
+
 	static updateStudentWithConfigs = (studentId, configuration) => {
 		return db().collection(collectionName).updateOne({ _id: new ObjectId(studentId) }, configuration);
 	};

@@ -93,6 +93,48 @@ exports.getStudentsByAge = async (req, res, next) => {
 	}
 }
 
+exports.patchEditStudent = async (req, res, next) => {
+	const { firstName, lastName, age, gender, email, studentId } = req.body;
+
+	const updatedStudent = { firstName: firstName, lastName: lastName, age: +age, gender: gender, email: email };
+	try {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			const errorMessage = errors.array()[0].msg;
+			const error = new Error(errorMessage);
+			error.statusCode = 422;
+			throw error;
+		}
+
+		const student = await Student.getStudent(studentId);
+
+		if (!student) {
+			const error = new Error('Student with that id does not exist');
+			error.statusCode = 404;
+			throw error;
+		}
+
+		// find all other students that has the given email(the sender is not included)
+		const foundStudents = await Student.getStudentsWithCondition({
+			$and: [ { email: email }, { _id: { $not: { $eq: new ObjectId(studentId) } } } ]
+		});
+		// it will return array, so check if it has some values
+		if (foundStudents.length > 0) {
+			const error = new Error('This Email is taken, please choose another one');
+			error.statusCode = 422;
+			throw error;
+		}
+
+		const updatingResult = await Student.updateStudent(studentId, updatedStudent);
+
+		res.status(200).json({ message: 'Student Updated successfully', updateStudentId: studentId.toString() });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
+
 exports.deleteDeleteStudent = async (req, res, next) => {
 	const studentId = req.params.id;
 
