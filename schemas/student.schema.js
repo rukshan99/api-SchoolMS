@@ -104,6 +104,10 @@ class Student {
 	static deleteStudent = studentId => {
 		return db().collection(collectionName).deleteOne({ _id: new ObjectId(studentId) });
 	};
+
+	static updateStudentsWithConfigs = (filteringObj, updatingObj) => {
+		return db().collection(collectionName).updateMany(filteringObj, updatingObj);
+	}
 }
 
 module.exports = Student;
