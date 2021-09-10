@@ -201,3 +201,14 @@ exports.patchremoveStudentFromClass = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getStudentsByClass = async (req, res, next) => {
+	try {
+		const studentsByClass = await Class.getStudentsByClass();
+		res.status(200).json({ studentsByClass });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
+
