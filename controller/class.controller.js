@@ -120,3 +120,35 @@ exports.getSearchForClasses = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.deleteRemoveClass = async (req, res, next) => {
+	const classId = req.params.classId;
+
+	try {
+		const foundClass = await Class.getClass(classId);
+
+		if (!foundClass) {
+			const error = new Error('No class with given id was found.');
+			error.statusCode = 404;
+			throw error;
+		}
+
+		// if the class was found, before deleting the class, get all the studentsIds in that class, then go and set their classId to null
+
+		if (foundClass) {
+			// make an array of all the studentids that were in this class and make sure it objectId data type
+			const studentIds = foundClass.students.map(stId => new ObjectId(stId));
+
+			await Student.updateStudentsWithConfigs({ _id: { $in: studentIds } }, { $set: { classId: null } });
+		}
+
+		const removingResult = await Class.removeClass(classId);
+
+		res.status(200).json({ message: 'Class removed successfully', RemovedclassId: classId });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+
+	// Later, after removing the class i will go and check for all the students in this class and i will go to remove the classId from each class object.
+};
