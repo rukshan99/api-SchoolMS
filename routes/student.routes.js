@@ -51,7 +51,7 @@ router.patch(
 		body('gender', 'Gender must be contain chars only'),
 		body('email', 'Email must be a valid email').trim().isEmail()
 	],
-	settingsControllers.patchEditStudent
+	StudentControllers.patchEditStudent
 );
 
 router.delete('/student/delete/:id', StudentControllers.deleteDeleteStudent);
