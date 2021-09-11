@@ -212,3 +212,35 @@ exports.getStudentsByClass = async (req, res, next) => {
 	}
 };
 
+exports.patchEditClass = async (req, res, next) => {
+	const { name, code,description,classId } = req.body;
+
+	const updatedClass = { name: name, code: code, description: description};
+
+	try {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			const errorMessage = errors.array()[0].msg;
+			const error = new Error(errorMessage);
+			error.statusCode = 422;
+			throw error;
+		}
+
+		const foundClass = await Class.getClass(classId);
+
+		if (!foundClass) {
+			const error = new Error('The class with this given id does not exist');
+			error.statusCode = 404;
+			throw error;
+		}
+
+		const editingResult = await Class.editClass(classId, updatedClass);
+
+		res.status(200).json({ message: 'Class updated successfully', newName: name });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 422;
+		next(error);
+	}
+};
+
