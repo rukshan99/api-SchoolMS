@@ -66,6 +66,10 @@ class Class {
 			.toArray();
 	};
 
+	static editClass = (classId, updatedClass) => {
+		return db().collection(collectionName).updateOne({ _id: new ObjectId(classId) }, { $set: updatedClass });
+	};
+
 
 }
 
