@@ -73,3 +73,33 @@ exports.getSearchForSubjects = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.patchEditSubject = async (req, res, next) => {
+	const { subjectId, name, description, code } = req.body;
+
+	const updatedSubject = { name: name, code: code, description: description};
+
+	try {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			const errorMessage = errors.array()[0].msg;
+			const error = new Error(errorMessage);
+			error.statusCode = 403;
+			throw error;
+		}
+		const foundSubject = await Subject.getSubject(subjectId);
+
+		if (!foundSubject) {
+			const error = new Error('Subject with given id not found');
+			error.statusCode = 404;
+			throw error;
+		}
+
+		const editResult = await Subject.editSubject(subjectId, updatedSubject);
+
+		res.status(200).json({ message: 'Subject updated successfully', newName: name });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
