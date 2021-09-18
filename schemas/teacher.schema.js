@@ -64,6 +64,14 @@ class Teacher {
 			])
 			.next();
 	};
+
+	static updateTeacherWithConfigs = (filterObj, updateObj) => {
+		return db().collection(collectionName).updateOne(filterObj, updateObj);
+	};
+
+	static updateTeachersWithConfigs = (filterObj, updateObj) => {
+		return db().collection(collectionName).updateMany(filterObj, updateObj);
+	};
 	
 }
 
