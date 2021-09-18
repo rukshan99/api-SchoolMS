@@ -130,3 +130,13 @@ exports.deleteRemoveSubject = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getTeachersBySubject = async (req, res, next) => {
+	try {
+		const teachersBySubject = await Subject.getTeachersBySubject();
+		res.status(200).json({ teachersBySubject });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};

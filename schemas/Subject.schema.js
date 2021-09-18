@@ -68,6 +68,22 @@ class Subject {
 			.toArray();
 	};
 
+	static GetSearchForSubjects = searchText => {
+		return db()
+			.collection(collectionName)
+			.find({ name:{ $regex: new RegExp(searchText), $options: "i" } })
+			.toArray();
+	};
+
+	static getTeachersBySubject = () => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{$project:{name: 1,count:{$size:"$teachers"}}}
+			])
+			.toArray();
+	};
+
 }
 
 module.exports = Subject;
