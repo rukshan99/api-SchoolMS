@@ -53,10 +53,6 @@ class Subject {
 		return db().collection(collectionName).deleteOne({ _id: new ObjectId(subjectId) });
 	};
 
-	// static updateSubjectWithConfigs = (filterObj, updateObj) => {
-	// 	return db().collection(collectionName).updateOne(filterObj, updateObj);
-	// };
-
 	static editSubject = (subjectId, updatedSubject) => {
 		return db().collection(collectionName).updateOne({ _id: new ObjectId(subjectId) }, { $set: updatedSubject });
 	};

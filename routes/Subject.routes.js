@@ -31,8 +31,8 @@ router.patch(
 	SubjectControllers.patchEditSubject
 );
 
-// // DELETE @ /settings/subjects/delete/:subjectId
-// router.delete('/subjects/delete/:subjectId', SubjectControllers.deleteRemoveSubject);
+// DELETE @ /settings/subjects/delete/:subjectId
+router.delete('/subjects/delete/:subjectId', SubjectControllers.deleteRemoveSubject);
 
 
 module.exports = router;
