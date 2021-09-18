@@ -72,7 +72,10 @@ router.patch(
 			}
 		})
 	],
-	TeacherControllers.patchEditTeacher
+	function(req, res){
+		TeacherControllers.patchEditTeacher
+	  }
+	
 );
 
 module.exports = router;
