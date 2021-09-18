@@ -29,6 +29,10 @@ class Teacher {
 		return db().collection(collectionName).find(condition).toArray();
 	};
 
+	static getTeacher = teacherId => {
+		return db().collection(collectionName).findOne({ _id: new ObjectId(teacherId) });
+	};
+
 	static getTeachers = () => {
 		return db().collection(collectionName).find().toArray();
 	};
