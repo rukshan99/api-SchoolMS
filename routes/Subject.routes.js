@@ -20,7 +20,7 @@ router.get('/subject/:subjectId', SubjectControllers.getSingleSubject);
 router.get('/subjects/search/:text', SubjectControllers.getSearchForSubjects);
 router.get('/subjects', SubjectControllers.getGetSubjects);
 
-// PATCH /settings/subjects/edit
+
 router.patch(
 	'/subjects/edit',
 	[
@@ -31,7 +31,7 @@ router.patch(
 	SubjectControllers.patchEditSubject
 );
 
-// DELETE @ /settings/subjects/delete/:subjectId
+
 router.delete('/subjects/delete/:subjectId', SubjectControllers.deleteRemoveSubject);
 
 

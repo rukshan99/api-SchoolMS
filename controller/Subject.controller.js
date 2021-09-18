@@ -116,13 +116,12 @@ exports.deleteRemoveSubject = async (req, res, next) => {
 			error.statusCode = 404;
 			throw error;
 		}
-		// before removing the subject, we need to get the subject teachers ids and remove the subject id from them
 
-		// if (foundSubject.teachers.length > 0) {
-		// 	const teachersIds = foundSubject.teachers.map(teacherId => new ObjectId(teacherId));
+		if (foundSubject.teachers.length > 0) {
+			const teachersIds = foundSubject.teachers.map(teacherId => new ObjectId(teacherId));
 
-		// 	await Teacher.updateTeachersWithConfigs({ _id: { $in: teachersIds } }, { $set: { subjectId: null } });
-		// }
+			await Teacher.updateTeachersWithConfigs({ _id: { $in: teachersIds } }, { $set: { subjectId: null } });
+		}
 		await Subject.removeSubject(subjectId);
 
 		res.status(200).json({ message: 'subject removed successfully', subjectId: subjectId });
