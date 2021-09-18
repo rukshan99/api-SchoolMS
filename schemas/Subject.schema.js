@@ -57,6 +57,10 @@ class Subject {
 		return db().collection(collectionName).updateOne({ _id: new ObjectId(subjectId) }, { $set: updatedSubject });
 	};
 
+	static updateSubjectWithConfigs = (filterObj, updateObj) => {
+		return db().collection(collectionName).updateOne(filterObj, updateObj);
+	};
+
 	static GetSearchForSubjects = searchText => {
 		return db()
 			.collection(collectionName)
