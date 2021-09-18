@@ -47,4 +47,32 @@ router.get('/teachers/search/:text', TeacherControllers.getSearchForTeachers);
 
 router.get('/teachers/:teacherId', TeacherControllers.getSingleTeacher);
 
+router.patch(
+	'/teacher/edit',
+	[
+		body('firstName', 'FirstName must contain chars only').trim().isString().notEmpty(),
+		body('lastName', 'LastName must contain chars only').trim().isString().notEmpty(),
+		body('gender', 'Gender must be contain chars only').trim().isAlpha().notEmpty(),
+		body('age', 'Insert age').trim().notEmpty(),
+		body('salary', 'Insert salary').trim().notEmpty(),
+		body('email').isEmail().withMessage('Email must be a valid email').custom(async value => {
+			try {
+				// check if this email is taken by some student(at least one)
+				const foundStudent = await Student.getStudentWithCondition({ email: value });
+				if (foundStudent) {
+					return Promise.reject('This email is taken by some student');
+				}
+
+				// checking if the email is taken by some teacher will be in the controller as we need the teacherId
+
+				return true;
+			} catch (error) {
+				if (!error.statusCode) error.statusCode = 500;
+				throw error;
+			}
+		})
+	],
+	TeacherControllers.patchEditTeacher
+);
+
 module.exports = router;
