@@ -57,13 +57,10 @@ router.patch(
 		body('salary', 'Insert salary').trim().notEmpty(),
 		body('email').isEmail().withMessage('Email must be a valid email').custom(async value => {
 			try {
-				// check if this email is taken by some student(at least one)
 				const foundStudent = await Student.getStudentWithCondition({ email: value });
 				if (foundStudent) {
 					return Promise.reject('This email is taken by some student');
 				}
-
-				// checking if the email is taken by some teacher will be in the controller as we need the teacherId
 
 				return true;
 			} catch (error) {
@@ -76,5 +73,7 @@ router.patch(
 );
 
 router.delete('/teachers/delete/:teacherId', TeacherControllers.deleteDeleteTeacher);
+
+router.get('/teachers-by-salary', TeacherControllers.getTeachersBySalary);
 
 module.exports = router;

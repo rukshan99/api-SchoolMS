@@ -80,6 +80,16 @@ class Teacher {
 	static deleteTeacher = teacherId => {
 		return db().collection(collectionName).deleteOne({ _id: new ObjectId(teacherId) });
 	};
+
+	static getTeachersBySalary = () => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ "$group": { _id: "$age", count: { $sum:1 } } }
+			])
+			.toArray();
+	};
+
 	
 }
 
