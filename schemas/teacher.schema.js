@@ -76,6 +76,10 @@ class Teacher {
 	static updateTeachersWithConfigs = (filterObj, updateObj) => {
 		return db().collection(collectionName).updateMany(filterObj, updateObj);
 	};
+
+	static deleteTeacher = teacherId => {
+		return db().collection(collectionName).deleteOne({ _id: new ObjectId(teacherId) });
+	};
 	
 }
 
