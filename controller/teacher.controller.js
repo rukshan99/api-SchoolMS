@@ -15,8 +15,7 @@ exports.postAddTeacher = async (req, res, next) => {
 			error.statusCode = 422;
 			throw error;
 		}
-
-		// check if the subject exists
+		
 		const foundSubject = await Subject.getSubject(subjectId);
 
 		if (!foundSubject) {
@@ -38,7 +37,6 @@ exports.postAddTeacher = async (req, res, next) => {
 
 		const { insertedId } = await teacher.addTeacher();
 
-		// add the teacher id to the teachers array in that subject
 		await Subject.updateSubjectWithConfigs(
 			{ _id: new ObjectId(subjectId) },
 			{ $addToSet: { teachers: insertedId } }
@@ -116,7 +114,7 @@ exports.patchEditTeacher = async (req, res, next) => {
 			throw error;
 		}
 
-		// check if the teacher exist
+		
 		const foundTeacher = await Teacher.getTeacher(teacherId);
 		if (!foundTeacher) {
 			const error = new Error('No teacher with that id was found');
@@ -124,7 +122,7 @@ exports.patchEditTeacher = async (req, res, next) => {
 			throw error;
 		}
 
-		// check if this email is taken by some teacher(at least one)
+		
 		const foundTeacherForEmailChecking = await Teacher.getTeacherWithCondition({
 			$and: [ { email: email }, { _id: { $not: { $eq: new ObjectId(teacherId) } } } ]
 		});
@@ -135,11 +133,11 @@ exports.patchEditTeacher = async (req, res, next) => {
 			throw error;
 		}
 
-		// check for new subject on editing
+		
 		const oldSubjectId = foundTeacher.subjectId;
 		if (oldSubjectId) {
 			if (oldSubjectId.toString() !== subjectId.toString() && oldSubjectId !== null) {
-				// new subjectId was assigned, remove this teacher from the subject teachers arr, add this teacher to the new subject teachers arr
+				
 				await Subject.updateSubjectWithConfigs(
 					{ _id: new ObjectId(oldSubjectId) },
 					{ $pull: { teachers: new ObjectId(teacherId) } }
@@ -150,8 +148,7 @@ exports.patchEditTeacher = async (req, res, next) => {
 				);
 			}
 		}
-
-		// this teacher has no id (this happened because the admin removed a subject he included in), go and add the teacherId to the given subjectId teachers array
+		
 
 		if (foundTeacher.subjectId === null) {
 			await Subject.updateSubjectWithConfigs(
@@ -179,8 +176,7 @@ exports.deleteDeleteTeacher = async (req, res, next) => {
 			error.statusCode = 404;
 			throw error;
 		}
-
-		// before deleting the teacher we want to check if he had subject(95% this will be true)
+		
 		if (foundTeacher.subjectId !== null) {
 			const subjectId = foundTeacher.subjectId;
 
@@ -197,3 +193,13 @@ exports.deleteDeleteTeacher = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getTeachersBySalary = async (req, res, next) => {
+	try {
+		const teachersBySalary = await Teacher.getTeachersBySalary();
+		res.status(200).json({ teachersBySalary });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+}
