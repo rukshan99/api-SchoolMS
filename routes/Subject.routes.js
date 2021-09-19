@@ -34,5 +34,7 @@ router.patch(
 
 router.delete('/subjects/delete/:subjectId', SubjectControllers.deleteRemoveSubject);
 
+router.get('/teachers-by-subject', SubjectControllers.getTeachersBySubject);
+
 
 module.exports = router;
