@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const { ObjectId } = require('mongodb');
 
 const Subject = require('../schemas/Subject.schema');
+const Teacher = require('../schemas/teacher.schema');
 
 exports.postAddSubject = async (req, res, next) => {
 	const { name, code, description } = req.body;
@@ -98,6 +99,42 @@ exports.patchEditSubject = async (req, res, next) => {
 		const editResult = await Subject.editSubject(subjectId, updatedSubject);
 
 		res.status(200).json({ message: 'Subject updated successfully', newName: name });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
+
+exports.deleteRemoveSubject = async (req, res, next) => {
+	const { subjectId } = req.params;
+
+	try {
+		const foundSubject = await Subject.getSubject(subjectId);
+
+		if (!foundSubject) {
+			const error = new Error('Subject with given id is not found');
+			error.statusCode = 404;
+			throw error;
+		}
+
+		if (foundSubject.teachers.length > 0) {
+			const teachersIds = foundSubject.teachers.map(teacherId => new ObjectId(teacherId));
+
+			await Teacher.updateTeachersWithConfigs({ _id: { $in: teachersIds } }, { $set: { subjectId: null } });
+		}
+		await Subject.removeSubject(subjectId);
+
+		res.status(200).json({ message: 'subject removed successfully', subjectId: subjectId });
+	} catch (error) {
+		if (!error.statusCode) error.statusCode = 500;
+		next(error);
+	}
+};
+
+exports.getTeachersBySubject = async (req, res, next) => {
+	try {
+		const teachersBySubject = await Subject.getTeachersBySubject();
+		res.status(200).json({ teachersBySubject });
 	} catch (error) {
 		if (!error.statusCode) error.statusCode = 500;
 		next(error);
