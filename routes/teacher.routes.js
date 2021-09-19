@@ -72,10 +72,9 @@ router.patch(
 			}
 		})
 	],
-	function(req, res){
-		TeacherControllers.patchEditTeacher
-	  }
-	
+		TeacherControllers.patchEditTeacher	
 );
+
+router.delete('/teachers/delete/:teacherId', TeacherControllers.deleteDeleteTeacher);
 
 module.exports = router;
