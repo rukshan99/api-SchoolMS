@@ -20,25 +20,21 @@ router.get('/subject/:subjectId', SubjectControllers.getSingleSubject);
 router.get('/subjects/search/:text', SubjectControllers.getSearchForSubjects);
 router.get('/subjects', SubjectControllers.getGetSubjects);
 
-// // PATCH /settings/subjects/edit
-// router.patch(
-// 	'/subjects/edit',
-// 	[
-// 		body('newName', 'newName must not be null, only in characters')
-// 			.trim()
-// 			.notEmpty()
-// 			.isAlpha()
-// 			.custom(async value => {
-// 				const foundSubject = await Subject.getSubjectWithCondition({ name: value });
-// 				if (foundSubject) return Promise.reject('this name is already taken');
-// 				return true;
-// 			})
-// 	],
-// 	SubjectControllers.patchEditSubjectName
-// );
 
-// // DELETE @ /settings/subjects/delete/:subjectId
-// router.delete('/subjects/delete/:subjectId', SubjectControllers.deleteRemoveSubject);
+router.patch(
+	'/subjects/edit',
+	[
+			body('name', 'Name must not be null, only in characters').trim().notEmpty().isAlpha(),
+			body('code', 'Code must contain chars only').trim().isString(),
+            body('description', 'Description must contain chars only').trim().isString()	
+	],
+	SubjectControllers.patchEditSubject
+);
+
+
+router.delete('/subjects/delete/:subjectId', SubjectControllers.deleteRemoveSubject);
+
+router.get('/teachers-by-subject', SubjectControllers.getTeachersBySubject);
 
 
 module.exports = router;

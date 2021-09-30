@@ -53,6 +53,24 @@ class Class {
 			.toArray();
 	};
 
+	static removeClass = classId => {
+		return db().collection(collectionName).deleteOne({ _id: new ObjectId(classId) });
+	};
+
+	static getStudentsByClass = () => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{$project:{name: 1,count:{$size:"$students"}}}
+			])
+			.toArray();
+	};
+
+	static editClass = (classId, updatedClass) => {
+		return db().collection(collectionName).updateOne({ _id: new ObjectId(classId) }, { $set: updatedClass });
+	};
+
+
 }
 
 

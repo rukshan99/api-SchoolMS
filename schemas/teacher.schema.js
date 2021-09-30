@@ -29,6 +29,10 @@ class Teacher {
 		return db().collection(collectionName).find(condition).toArray();
 	};
 
+	static getTeacher = teacherId => {
+		return db().collection(collectionName).findOne({ _id: new ObjectId(teacherId) });
+	};
+
 	static getTeachers = () => {
 		return db().collection(collectionName).find().toArray();
 	};
@@ -54,6 +58,39 @@ class Teacher {
 			})
 			.toArray();
 	};
+
+	static getTeacherAggregated = teacherId => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ $match: { _id: new ObjectId(teacherId) } },
+				{ $lookup: { from: 'subjects', localField: 'subjectId', foreignField: '_id', as: 'subject' } }
+			])
+			.next();
+	};
+
+	static updateTeacherWithConfigs = (filterObj, updateObj) => {
+		return db().collection(collectionName).updateOne(filterObj, updateObj);
+	};
+
+	static updateTeachersWithConfigs = (filterObj, updateObj) => {
+		return db().collection(collectionName).updateMany(filterObj, updateObj);
+	};
+
+	static deleteTeacher = teacherId => {
+		return db().collection(collectionName).deleteOne({ _id: new ObjectId(teacherId) });
+	};
+
+	static getTeachersBySalary = () => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ "$group": { _id: "$age", count: { $sum:1 } } }
+			])
+			.toArray();
+	};
+
+	
 }
 
 module.exports = Teacher;

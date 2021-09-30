@@ -88,13 +88,30 @@ class Student {
 			.next();
 	};
 
+	static updateStudent = (studentId, updatedStudent) => {
+		return db().collection(collectionName).updateOne({ _id: new ObjectId(studentId) }, { $set: updatedStudent });
+	};
+
 	static updateStudentWithConfigs = (studentId, configuration) => {
 		return db().collection(collectionName).updateOne({ _id: new ObjectId(studentId) }, configuration);
 	};
 
+	static getStudentsByAge = () => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{ "$group": { _id: "$age", count: { $sum:1 } } }
+			])
+			.toArray();
+	};
+
+	static deleteStudent = studentId => {
+		return db().collection(collectionName).deleteOne({ _id: new ObjectId(studentId) });
+	};
+
+	static updateStudentsWithConfigs = (filteringObj, updatingObj) => {
+		return db().collection(collectionName).updateMany(filteringObj, updatingObj);
+	}
 }
-
-
-
 
 module.exports = Student;

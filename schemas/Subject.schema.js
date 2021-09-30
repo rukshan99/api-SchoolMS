@@ -53,6 +53,10 @@ class Subject {
 		return db().collection(collectionName).deleteOne({ _id: new ObjectId(subjectId) });
 	};
 
+	static editSubject = (subjectId, updatedSubject) => {
+		return db().collection(collectionName).updateOne({ _id: new ObjectId(subjectId) }, { $set: updatedSubject });
+	};
+
 	static updateSubjectWithConfigs = (filterObj, updateObj) => {
 		return db().collection(collectionName).updateOne(filterObj, updateObj);
 	};
@@ -61,6 +65,22 @@ class Subject {
 		return db()
 			.collection(collectionName)
 			.find({ name:{ $regex: new RegExp(searchText), $options: "i" } })
+			.toArray();
+	};
+
+	static GetSearchForSubjects = searchText => {
+		return db()
+			.collection(collectionName)
+			.find({ name:{ $regex: new RegExp(searchText), $options: "i" } })
+			.toArray();
+	};
+
+	static getTeachersBySubject = () => {
+		return db()
+			.collection(collectionName)
+			.aggregate([
+				{$project:{name: 1,count:{$size:"$teachers"}}}
+			])
 			.toArray();
 	};
 

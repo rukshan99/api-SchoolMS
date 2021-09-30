@@ -51,4 +51,29 @@ router.patch('/class/addStudent', ClassControllers.patchAddStudentToClass);
 router.get('/classes/search/:text', ClassControllers.getSearchForClasses);
 
 
+// DELETE @ /settings/class/delete/:classId
+router.delete('/class/delete/:classId', ClassControllers.deleteRemoveClass);
+
+// PATCH @ /settings/class/removeStudent
+router.patch('/class/removeStudent', ClassControllers.patchremoveStudentFromClass); 
+
+router.get('/students-by-class', ClassControllers.getStudentsByClass);
+
+// GET @ /settings/class/edit/className
+router.patch(
+	'/class/edit',
+	[
+		body('name', 'Class name must be consisting of one capital character and one number for better experience')
+			.trim()
+			.isUppercase()
+			.isLength({ min: 2, max: 10 })
+			.not()
+			.isNumeric(),
+			body('code', 'Code must contain chars only').trim().isString(),
+            body('description', 'Description must contain chars only').trim().isString()
+
+	],
+	ClassControllers.patchEditClass
+);
+
 module.exports = router;

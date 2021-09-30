@@ -41,4 +41,19 @@ router.get('/student/:id', StudentControllers.getStudent);
 
 router.get('/students/search/:text', StudentControllers.getSearchForStudents);
 
+router.get('/students-by-age', StudentControllers.getStudentsByAge);
+
+router.patch(
+	'/student/edit',
+	[
+		body('firstName', 'FirstName must contain chars only').trim().isString(),
+		body('lastName', 'LastName must contain chars only').trim().isString(),
+		body('gender', 'Gender must be contain chars only'),
+		body('email', 'Email must be a valid email').trim().isEmail()
+	],
+	StudentControllers.patchEditStudent
+);
+
+router.delete('/student/delete/:id', StudentControllers.deleteDeleteStudent);
+
 module.exports = router;
